@@ -1,0 +1,30 @@
+# FathomNet 2026 — Python dependencies
+# Install with: pip install -r requirements.txt
+#
+# On Great Lakes, load CUDA modules first:
+#   module load python/3.11 cuda/12.1 cudnn/12.1
+#   python -m venv ~/venvs/fathomnet
+#   source ~/venvs/fathomnet/bin/activate
+#   pip install -r requirements.txt
+
+# ── Core detection ─────────────────────────────────────────────────────────────
+ultralytics>=8.2.0          # YOLOv8; installs torch if not already present
+
+# ── Data / annotation handling ─────────────────────────────────────────────────
+pycocotools>=2.0.7          # COCO mAP evaluation
+Pillow>=10.0.0
+opencv-python-headless>=4.9
+pyyaml>=6.0
+
+# ── Download script ────────────────────────────────────────────────────────────
+requests>=2.31.0
+tqdm>=4.66.0
+
+# ── Notebook / EDA ─────────────────────────────────────────────────────────────
+jupyter>=1.0.0
+matplotlib>=3.8.0
+pandas>=2.0.0
+numpy>=1.26.0
+
+# ── Optional: experiment tracking (recommended) ────────────────────────────────
+# wandb>=0.17.0             # uncomment if you want W&B logging

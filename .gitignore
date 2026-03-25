@@ -1,0 +1,38 @@
+# ── Data (never commit images or large annotation files) ──────────────────────
+data/raw/
+data/yolo/
+data/yolo_*/
+
+# Annotation JSONs are large; keep them out of git.
+# Copy them manually to Great Lakes or use scp/wget.
+data/annotations/
+
+# ── Model outputs ──────────────────────────────────────────────────────────────
+outputs/checkpoints/
+outputs/submissions/
+outputs/logs/
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+*.so
+.venv/
+venv/
+env/
+
+# ── Jupyter ───────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# ── OS / editor ───────────────────────────────────────────────────────────────
+.DS_Store
+*.swp
+.vscode/
+.idea/
+
+# ── Weights & Biases ──────────────────────────────────────────────────────────
+wandb/

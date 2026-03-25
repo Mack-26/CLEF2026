@@ -1,0 +1,43 @@
+# train_config.yaml
+# ------------------
+# Master training configuration for FathomNet 2026 baseline.
+# All paths are relative to the project root.
+#
+# To run a pseudo-labeling round, pass --dataset_yaml to src/trainer.py
+# without touching this file.
+
+model:
+  # YOLOv8 variant: n(ano) / s(mall) / m(edium) / l(arge) / x(tra-large)
+  # Start with yolov8l for speed; switch to yolov8x for final submissions.
+  # Providing a .pt path fine-tunes from COCO-pretrained weights.
+  architecture: yolov8l.pt
+
+dataset:
+  yaml: data/yolo/dataset.yaml   # produced by scripts/convert_to_yolo.py
+
+training:
+  epochs: 50
+  img_size: 640         # input resolution; try 1280 for final run
+  batch_size: 16        # adjust based on GPU VRAM (16 works on 40GB A100)
+  lr0: 0.01             # initial learning rate
+  lrf: 0.01             # final lr = lr0 * lrf
+  momentum: 0.937
+  weight_decay: 0.0005
+  warmup_epochs: 3.0
+  workers: 8            # dataloader workers
+  device: 0             # GPU index; use "0,1" for multi-GPU
+  amp: true             # automatic mixed precision (saves VRAM)
+
+augmentation:
+  # Standard augmentations; tuned for underwater imagery
+  hsv_h: 0.015          # hue jitter (low — color matters underwater)
+  hsv_s: 0.7
+  hsv_v: 0.4
+  flipud: 0.3           # vertical flip (objects can appear any orientation)
+  fliplr: 0.5
+  mosaic: 1.0           # mosaic augmentation (very helpful for small objects)
+
+output:
+  project: outputs/checkpoints
+  name: baseline
+  save_period: 10       # save checkpoint every N epochs (-1 = best only)
