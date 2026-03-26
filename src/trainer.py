@@ -47,8 +47,16 @@ def run_training(cfg: dict, dataset_yaml: str | None = None) -> str:
     project    = cfg["output"]["project"]
     run_name   = cfg["output"]["name"]
 
-    # Load model: if weights path exists, resume/fine-tune; else train from scratch
-    model = YOLO(model_cfg)
+    # Resume from last.pt if it exists (handles SLURM timeout restarts)
+    last_weights = Path(project) / run_name / "weights" / "last.pt"
+    if last_weights.exists():
+        print(f"Resuming from checkpoint: {last_weights}")
+        model = YOLO(str(last_weights))
+        resume = True
+    else:
+        print(f"Starting fresh training with: {model_cfg}")
+        model = YOLO(model_cfg)
+        resume = False
 
     results = model.train(
         data=data_yaml,
@@ -70,13 +78,14 @@ def run_training(cfg: dict, dataset_yaml: str | None = None) -> str:
         # Output
         project=project,
         name=run_name,
-        exist_ok=True,         # allow re-running without renaming
+        exist_ok=True,         # don't rename the run dir on restart
         save=True,
         save_period=cfg["output"].get("save_period", -1),
+        resume=resume,         # picks up epoch count, optimizer state, LR schedule
         # Misc
         workers=cfg["training"].get("workers", 8),
         device=cfg["training"].get("device", 0),
-        amp=cfg["training"].get("amp", True),  # automatic mixed precision
+        amp=cfg["training"].get("amp", True),
         verbose=True,
     )
 

@@ -21,10 +21,11 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --gres=gpu:a40:1
 #SBATCH --mem=64G
-#SBATCH --time=08:00:00                 # increase to 24h for full 100-epoch run
+#SBATCH --time=04:00:00
 #SBATCH --output=outputs/logs/train_baseline_%j.out
 #SBATCH --error=outputs/logs/train_baseline_%j.err
-#SBATCH --mail-type=BEGIN,END,FAIL
+#SBATCH --requeue
+#SBATCH --mail-type=BEGIN,END,FAIL,REQUEUE
 #SBATCH --mail-user=aromanan@umich.edu
 
 # ---- Environment setup -------------------------------------------------------
