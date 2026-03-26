@@ -15,11 +15,11 @@
 # ---- Resource requests -------------------------------------------------------
 #SBATCH --job-name=fathomnet_baseline
 #SBATCH --account=engin1
-#SBATCH --partition=gpu
+#SBATCH --partition=spgpu
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=8               # dataloader workers + 1
-#SBATCH --gres=gpu:a100:1               # 1x A100 40GB; use a100:2 for multi-GPU
+#SBATCH --cpus-per-task=8
+#SBATCH --gres=gpu:a40:1
 #SBATCH --mem=64G
 #SBATCH --time=08:00:00                 # increase to 24h for full 100-epoch run
 #SBATCH --output=outputs/logs/train_baseline_%j.out
