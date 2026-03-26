@@ -191,8 +191,8 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--train_ann", default="data/annotations/dataset_train.json")
-    parser.add_argument("--test_ann",  default="data/annotations/dataset_test.json")
+    parser.add_argument("--train_ann", default="data/annotations/train_dataset.json")
+    parser.add_argument("--test_ann",  default="data/annotations/test_dataset.json")
     parser.add_argument("--img_dir",   default="data/raw")
     parser.add_argument("--out_dir",   default="data/yolo")
     parser.add_argument("--val_frac",  type=float, default=0.1,

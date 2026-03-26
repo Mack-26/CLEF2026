@@ -113,7 +113,7 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--weights",  required=True, help="Path to best.pt")
-    parser.add_argument("--test_ann", default="data/annotations/dataset_test.json")
+    parser.add_argument("--test_ann", default="data/annotations/test_dataset.json")
     parser.add_argument("--img_dir",  default="data/raw/test")
     parser.add_argument("--out",      default="outputs/submissions/submission.csv")
     parser.add_argument("--conf",     type=float, default=0.25, help="Confidence threshold")

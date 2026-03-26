@@ -14,7 +14,7 @@
 
 # ---- Resource requests -------------------------------------------------------
 #SBATCH --job-name=fathomnet_baseline
-#SBATCH --account=YOUR_ACCOUNT          # <-- replace with your Slurm account
+#SBATCH --account=engin1
 #SBATCH --partition=gpu
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
@@ -46,26 +46,11 @@ source ~/venvs/fathomnet/bin/activate
 cd $SLURM_SUBMIT_DIR
 export PYTHONPATH=$SLURM_SUBMIT_DIR:$PYTHONPATH
 
-# ---- Optional: download data if not already present -------------------------
-# Uncomment and adjust once data/annotations/ files are in place.
-#
-# echo "Downloading training images..."
-# python scripts/download_images.py \
-#     --ann data/annotations/dataset_train.json \
-#     --out data/raw/train \
-#     --workers 16
-#
-# echo "Downloading test images..."
-# python scripts/download_images.py \
-#     --ann data/annotations/dataset_test.json \
-#     --out data/raw/test \
-#     --workers 16
-
 # ---- Convert annotations to YOLO format (fast; always safe to re-run) -------
 echo "Converting annotations to YOLO format..."
 python scripts/convert_to_yolo.py \
-    --train_ann data/annotations/dataset_train.json \
-    --test_ann  data/annotations/dataset_test.json \
+    --train_ann data/annotations/train_dataset.json \
+    --test_ann  data/annotations/test_dataset.json \
     --img_dir   data/raw \
     --out_dir   data/yolo \
     --val_frac  0.1
@@ -78,7 +63,7 @@ python src/trainer.py --config configs/train_config.yaml
 echo "Running inference on test set..."
 python scripts/inference.py \
     --weights  outputs/checkpoints/baseline/weights/best.pt \
-    --test_ann data/annotations/dataset_test.json \
+    --test_ann data/annotations/test_dataset.json \
     --img_dir  data/raw/test \
     --out      outputs/submissions/submission_${SLURM_JOB_ID}.csv \
     --conf     0.25 \
