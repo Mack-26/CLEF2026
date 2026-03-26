@@ -25,7 +25,7 @@
 #SBATCH --output=outputs/logs/train_baseline_%j.out
 #SBATCH --error=outputs/logs/train_baseline_%j.err
 #SBATCH --mail-type=BEGIN,END,FAIL
-#SBATCH --mail-user=YOUR_EMAIL          # <-- replace with your email
+#SBATCH --mail-user=aromanan@umich.edu
 
 # ---- Environment setup -------------------------------------------------------
 echo "Job ID: $SLURM_JOB_ID"
@@ -34,9 +34,8 @@ echo "GPUs:   $CUDA_VISIBLE_DEVICES"
 date
 
 # Load modules available on Great Lakes
-module load python/3.11
+module load python3.11-anaconda/2024.02
 module load cuda/12.1
-module load cudnn/12.1
 
 # Activate your virtual environment
 # (create once with: python -m venv ~/venvs/fathomnet && pip install -r requirements.txt)
