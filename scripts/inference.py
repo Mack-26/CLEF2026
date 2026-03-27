@@ -95,14 +95,17 @@ def main(args):
                 coco_cat_id = yolo_to_coco.get(yolo_cls, yolo_cls)
 
                 rows.append({
-                    "image_id":   image_id,
+                    "image_id":    image_id,
                     "category_id": coco_cat_id,
-                    "bbox":       json.dumps([round(x, 2), round(y, 2),
-                                              round(w, 2), round(h, 2)]),
-                    "score":      round(score, 6),
+                    "bbox_x":      round(x, 2),
+                    "bbox_y":      round(y, 2),
+                    "bbox_width":  round(w, 2),
+                    "bbox_height": round(h, 2),
+                    "score":       round(score, 6),
                 })
 
-    df = pd.DataFrame(rows, columns=["image_id", "category_id", "bbox", "score"])
+    df = pd.DataFrame(rows, columns=["image_id", "category_id", "bbox_x", "bbox_y",
+                                     "bbox_width", "bbox_height", "score"])
     df.insert(0, "annotation_id", range(1, len(df) + 1))
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
