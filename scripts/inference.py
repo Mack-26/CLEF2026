@@ -28,12 +28,11 @@ from tqdm import tqdm
 from ultralytics import YOLO
 
 
-def load_category_map(data_yaml_dir: str) -> dict[int, int]:
+def load_category_map(map_path: str) -> dict[int, int]:
     """
     Load the zero-index -> COCO category_id reverse mapping.
     This is the inverse of what convert_to_yolo.py wrote.
     """
-    map_path = Path(data_yaml_dir) / "category_id_map.json"
     with open(map_path) as f:
         data = json.load(f)
     # cat_map was {coco_id: yolo_idx}; we want {yolo_idx: coco_id}
@@ -53,7 +52,7 @@ def main(args):
     filename_to_id = {img["file_name"]: img["id"] for img in test_coco["images"]}
 
     # Load category map (zero-index -> COCO category_id)
-    yolo_to_coco = load_category_map(Path(args.weights).parent.parent.parent)
+    yolo_to_coco = load_category_map(args.category_map)
 
     rows = []
     image_paths = sorted(img_dir.glob("*.jpg")) + sorted(img_dir.glob("*.png"))
@@ -116,6 +115,7 @@ if __name__ == "__main__":
     parser.add_argument("--test_ann", default="data/annotations/test_dataset.json")
     parser.add_argument("--img_dir",  default="data/raw/test")
     parser.add_argument("--out",      default="outputs/submissions/submission.csv")
+    parser.add_argument("--category_map", default="data/yolo/category_id_map.json")
     parser.add_argument("--conf",     type=float, default=0.25, help="Confidence threshold")
     parser.add_argument("--iou",      type=float, default=0.5,  help="NMS IoU threshold")
     parser.add_argument("--img_size", type=int,   default=640,  help="Inference image size")
