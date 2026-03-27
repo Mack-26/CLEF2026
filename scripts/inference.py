@@ -103,6 +103,7 @@ def main(args):
                 })
 
     df = pd.DataFrame(rows, columns=["image_id", "category_id", "bbox", "score"])
+    df.insert(0, "annotation_id", range(1, len(df) + 1))
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(out_path, index=False)
